@@ -33,7 +33,7 @@ impl Message {
             // NOTE: immediate sets with index is not supported, recommended workaround:
             // https://github.com/todbot/blink1/issues/251
             Message::Immediate(color, Some(index)) => {
-                Message::Fade(color.clone(), Duration::from_millis(0), Some(*index)).buffer()
+                Message::Fade(*color, Duration::from_millis(0), Some(*index)).buffer()
             }
             Message::Immediate(color, None) => {
                 let (r, g, b) = color.rgb();
