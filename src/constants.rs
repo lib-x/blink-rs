@@ -14,7 +14,10 @@ pub const FADE_COMMAND_ACTION: u8 = 0x63;
 //    - Set RGB color now       format: { 1, 'n', r,g,b,       0,0, n } (*)
 pub const IMMEDIATE_COMMAND_ACTION: u8 = 0x6e;
 //    - Read current RGB color  format: { 1, 'r', n,0,0,       0,0, n } (2)
+pub const READ_RGB_COMMAND_ACTION: u8 = 0x72;
+
 //    - Serverdown tickle/off   format: { 1, 'D', on,th,tl,  st,sp,ep } (*)
+pub const SERVER_DOWN_COMMAND_ACTION: u8 = 0x44;
 //    - PlayLoop                format: { 1, 'p', on,sp,ep,c,    0, 0 } (2)
 //    - Playstate readback      format: { 1, 'S', 0,0,0,       0,0, 0 } (2)
 //    - Set color pattern line  format: { 1, 'P', r,g,b,     th,tl, p }
