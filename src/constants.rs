@@ -7,6 +7,7 @@ pub const HID_SET_REPORT: u8 = 0x09;
 pub const HID_FEATURE: u16 = 0x03 << 0x08;
 
 // Full command list can be found at github.com/todbot/blink1/blob/9bec7d35/hardware/firmware_mk2/main.c.
+// the document can also be found https://github.com/todbot/blink1/blob/main/docs/blink1-hid-commands.md
 
 //    - Fade to RGB color       format: { 1, 'c', r,g,b,     th,tl, n }
 pub const FADE_COMMAND_ACTION: u8 = 0x63;
