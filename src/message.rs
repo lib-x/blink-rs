@@ -1,4 +1,4 @@
-use super::constants::{FADE_COMMAND_ACTION, IMMEDIATE_COMMAND_ACTION};
+use super::constants::{*};
 use std::time::Duration;
 use crate::color::Color;
 
@@ -8,6 +8,18 @@ pub enum Message {
     Off,
     Fade(Color, Duration, Option<u8>),
     Immediate(Color, Option<u8>),
+    ReadRGB(u8),
+    ServerTickle(bool, u8, u8, u8),
+    PlayLoop(bool, u8, u8, u8),
+    PlayStateRead,
+    SetColorPattern(Color, u8, u8, u8),
+    SaveColorPatterns,
+    ReadColorPattern(u8),
+    SetLedN(u8),
+    ReadEEPROM(u8),
+    WriteEEPROM(u8, u8),
+    GetVersion,
+    TestCommand,
 }
 
 impl Default for Message {
@@ -38,6 +50,41 @@ impl Message {
             Message::Immediate(color, None) => {
                 let (r, g, b) = color.rgb();
                 [0x01, IMMEDIATE_COMMAND_ACTION, r, g, b, 0x00, 0x00, 0]
+            }
+            Message::ReadRGB(n) => [0x01, READ_RGB_COMMAND_ACTION, *n, 0x00, 0x00, 0x00, 0x00, *n],
+            Message::ServerTickle(on, th, tl, st) => {
+                [0x01, SERVER_TICKLE_COMMAND_ACTION, *on as u8, *th, *tl, *st, 0x00, 0x00]
+            }
+            Message::PlayLoop(on, start_pos, end_pos, count) => {
+                [0x01, PLAY_LOOP_COMMAND_ACTION, *on as u8, *start_pos, *end_pos, *count, 0x00, 0x00]
+            }
+            Message::PlayStateRead => {
+                [0x01, PLAY_STATE_READ_BACK_COMMAND_ACTION, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
+            }
+            Message::SetColorPattern(color, time_high, time_low, pos) => {
+                let (r, g, b) = color.rgb();
+                [0x01, SET_COLOR_PATTERN_LINE_COMMAND_ACTION, r, g, b, *time_high, *time_low, *pos]
+            }
+            Message::SaveColorPatterns => {
+                [0x01, SAVE_COLOR_PATTERNS_COMMAND_ACTION, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
+            }
+            Message::ReadColorPattern(pos) => {
+                [0x01, READ_COLOR_PATTERN_LINE_COMMAND_ACTION, 0x00, 0x00, 0x00, 0x00, 0x00, *pos]
+            }
+            Message::SetLedN(n) => {
+                [0x01, SET_LED_N_COMMAND_ACTION, *n, 0x00, 0x00, 0x00, 0x00, 0x00]
+            }
+            Message::ReadEEPROM(addr) => {
+                [0x01, READ_EEPROM_LOCATION_COMMAND_ACTION, *addr, 0x00, 0x00, 0x00, 0x00, 0x00]
+            }
+            Message::WriteEEPROM(addr, val) => {
+                [0x01, WRITE_EEPROM_LOCATION_COMMAND_ACTION, *addr, *val, 0x00, 0x00, 0x00, 0x00]
+            }
+            Message::GetVersion => {
+                [0x01, GET_VERSION_COMMAND_ACTION, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
+            }
+            Message::TestCommand => {
+                [0x01, TEST_COMMAND_ACTION, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
             }
         }
     }
